@@ -21,17 +21,15 @@ for tr in trs :
     print(
         tr.text
 )
-print("show appart visites lmissa")
-filings = [
-    
-]
+
+filings = []
 
 for tr in trs :
     filetype = tr.find_element(By.CLASS_NAME, 'filetype')
     preview_file = filetype.find_element(By.CLASS_NAME, 'preview-file')
     filename = preview_file.text
 
-    filed _date = tr.find_element(By.CLASS_NAME, 'filed').text
+    filed_date = tr.find_element(By.CLASS_NAME, 'filed').text
 
     # tr.find_element(By.CLASS_NAME, 'enddate')
     

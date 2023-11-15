@@ -2,32 +2,39 @@ import json
 import tinydb
 from tinydb import Query
 
+MEMORY_FILE = "filings.json"
 
-class Memory():
-    
+class FilingsMemory():
     def __init__(self):
-        self.db = tinydb.TinyDB("memory.json")
+        self.db = tinydb.TinyDB(MEMORY_FILE)
     
-    def save_memory(self, values_dict):
-        for value in values_dict :
-            db.insert(
-                value
+    def insert_one(self, filings_dict):
+        self.db.insert(
+                filings_dict
             )
 
+    def insert(self, batch):
+        if type(batch) == list:
+            self.db.insert_multiple(batch)
+        
+        else:
+            self.db.insert(batch)
+        
 
-    def load_memory(self):
-        return db.all()
 
-    def exists(self, value_dict):
+    def find_one(self, filing):
         filings = Query()
 
-        result = db.search(
-            filings.date == value_dict.get("date") and 
-            filings.filename == value_dict.get("filename") and 
-            filings.entity_name == value_dict.get("entity_name")
+        result = self.db.search(
+            (filings.filename == filing.get("filename")) & 
+            (filings.entity_name == filing.get("entity_name")) &
+            (filings.date == filing.get("date"))
         )
 
+        return result
+
+
+    def exists(self, filing):
+        result = self.find_one(filing)
+
         return len(result) > 0 
-
-
-    last_fetch_edgar(1)
